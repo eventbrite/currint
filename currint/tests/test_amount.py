@@ -6,9 +6,6 @@ import six
 from ..currency import currencies
 from ..amount import Amount, _ZeroAmount
 
-if six.PY3:
-    from builtins import str as unicode
-
 
 class AmountTests(TestCase):
 
@@ -66,19 +63,19 @@ class AmountTests(TestCase):
 
     def test_format(self):
         self.assertEqual(
-            unicode(Amount(currencies["USD"], 132)),
+            six.text_type(Amount(currencies["USD"], 132)),
             "$1.32",
         )
         self.assertEqual(
-            unicode(Amount(currencies["USD"], -132)),
+            six.text_type(Amount(currencies["USD"], -132)),
             "$-1.32",
         )
         self.assertEqual(
-            unicode(Amount(currencies["GBP"], 132)),
+            six.text_type(Amount(currencies["GBP"], 132)),
             "£1.32",
         )
         self.assertEqual(
-            unicode(Amount(currencies["MRO"], 7)),
+            six.text_type(Amount(currencies["MRO"], 7)),
             "1.2 MRO",
         )
 
@@ -248,7 +245,7 @@ class ZeroAmountTests(TestCase):
 
     def test_unicode(self):
         try:
-            unicode(Amount.ZERO)
+            six.text_type(Amount.ZERO)
         except:
             self.fail("unicode(Amount.ZERO) raised an exception")
 
