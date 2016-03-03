@@ -1,7 +1,9 @@
 from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
 from functools import total_ordering
+import six
 
 
+@six.python_2_unicode_compatible
 @total_ordering
 class Amount(object):
     """
@@ -13,8 +15,8 @@ class Amount(object):
         Initialises the Amount with a Currency object and an
         integer value of its minor unit (i.e. cents for USD)
         """
-        assert isinstance(value, (int, long))
-        assert not isinstance(currency, basestring)
+        assert isinstance(value, six.integer_types)
+        assert not isinstance(currency, six.string_types)
         self.currency = currency
         self.value = value
 
@@ -46,9 +48,6 @@ class Amount(object):
             raise ValueError("Invalid currency value %s" % value)
 
     def __str__(self):
-        return unicode(self).encode("utf8")
-
-    def __unicode__(self):
         return self.currency.format(self.value)
 
     def __repr__(self):
@@ -85,11 +84,14 @@ class Amount(object):
             raise ValueError("You cannot compare amounts of different currencies (%s and %s)" % (self.currency, other.currency))
         return self.value < other.value
 
+    def __bool__(self):
+        return bool(self.value)
+
     def __nonzero__(self):
         return bool(self.value)
 
     def apply_factor(self, other):
-        if not isinstance(other, (int, long, Decimal)):
+        if not isinstance(other, (six.integer_types + (Decimal,))):
             raise ValueError("You can only apply an integer, long or Decimal factor to an Amount")
         return Amount(
             self.currency,
@@ -103,7 +105,7 @@ class Amount(object):
         Rate is the number of new currency for each unit of the old -
         new = old * rate. Rate can be a float or a Decimal.
         """
-        if not isinstance(rate, (int, long, float, Decimal)):
+        if not isinstance(rate, (six.integer_types + (float, Decimal))):
             raise ValueError("You can only apply an integer, long, float or Decimal factor to an Amount")
         return Amount.from_code_and_minor(
             new_code,
@@ -115,7 +117,7 @@ class Amount(object):
         Divides the value through by the integer provided.
         Errors if the result is not exact.
         """
-        if not isinstance(divisor, (int, long)):
+        if not isinstance(divisor, six.integer_types):
             raise ValueError("You can only divide by an integer or a long.")
         new_value = self.value / float(divisor)
         if int(new_value) != new_value:
@@ -127,6 +129,7 @@ class Amount(object):
         return self.currency.minor_to_major(self.value)
 
 
+@six.python_2_unicode_compatible
 class _ZeroAmount(Amount):
     """
     Amount singleton that doesn't have any currency.
@@ -165,8 +168,8 @@ class _ZeroAmount(Amount):
     def __lt__(self, other):
         return self.value < other.value
 
-    def __unicode__(self):
-        return unicode(self.value)
+    def __str__(self):
+        return str(self.value)
 
     @classmethod
     def from_code_and_minor(cls, currency_code, value):
