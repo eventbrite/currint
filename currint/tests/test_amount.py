@@ -2,8 +2,12 @@
 from __future__ import unicode_literals
 from decimal import Decimal
 from unittest import TestCase
+import six
 from ..currency import currencies
 from ..amount import Amount, _ZeroAmount
+
+if six.PY3:
+    from builtins import str as unicode
 
 
 class AmountTests(TestCase):
