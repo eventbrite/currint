@@ -139,7 +139,7 @@ currencies = {
     "BSD": Currency("BSD", "044", 2, 'Bahamian Dollar'),
     "BTN": Currency("BTN", "064", 2, 'Ngultrum'),
     "BWP": Currency("BWP", "072", 2, 'Pula'),
-    "BYR": Currency("BYR", "974", 0, 'Belarussian Ruble'),
+    "BYN": Currency("BYN", "933", 2, 'Belarussian Ruble'),
     "BZD": Currency("BZD", "084", 2, 'Belize Dollar'),
     "CAD": Currency("CAD", "124", 2, 'Canadian Dollar'),
     "CDF": Currency("CDF", "976", 2, 'Congolese Franc'),
