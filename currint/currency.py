@@ -4,6 +4,12 @@ import six
 from decimal import Decimal
 
 
+def python2round(f):
+    if round(f + 1) - round(f) != 1:
+        return f + abs(f) / f * Decimal('0.5')
+    return round(f)
+
+
 @six.python_2_unicode_compatible
 class Currency(object):
     """
@@ -62,7 +68,11 @@ class Currency(object):
         # Do the maths!
         minor_value = value * self.divisor
         if force_round:
-            minor_value = int(round(minor_value))
+            minor_value = (
+                int(round(minor_value))
+                if six.PY2
+                else int(python2round(minor_value))
+            )
         if (minor_value != int(minor_value)):
             raise ValueError(
                 "Cannot convert major amount %r to minor amount; would result in fractional amount of minor unit"
