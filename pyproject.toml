@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "currint"
+version = "0.1.0"
+description = "Integer-based, fixed precision currency calculation"
+authors = [
+    { name = "Andrew Godwin", email = "andrew@aeracode.org" }
+]
+license = { text = "Apache-2.0" }
+readme = "README.rst"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development"
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/aeracode/currint"
